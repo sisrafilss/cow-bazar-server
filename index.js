@@ -106,6 +106,20 @@ async function run() {
       const result = await cowsData.toArray();
       res.send(result);
     });
+    app.get("/cows/:id", verifyToken, async (req, res) => {
+      const id = req.params.id;
+      const result = await cowsCollection.findOne({ _id: new ObjectId(id) });
+      res.send(result);
+    });
+    app.patch("/cows/:id", verifyToken, async (req, res) => {
+      const id = req.params.id;
+      const updatedData = req.body;
+      const result = await cowsCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: updatedData }
+      );
+      res.send(result);
+    });
     app.delete("/cows/:id", verifyToken, async (req, res) => {
       const id = req.params.id;
       const result = await cowsCollection.deleteOne({ _id: new ObjectId(id) });
