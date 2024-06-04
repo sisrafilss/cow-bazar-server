@@ -72,6 +72,11 @@ async function run() {
         await userCollection.insertOne(userData);
         res.send({ token });
       });
+      app.get("/user/:email", verifyToken, async (req, res) => {
+        const email = req.params.email;
+        const result = await userCollection.findOne({ email });
+        res.send(result);
+      });
 
     console.log("DB successfully connected!");
   } finally {
