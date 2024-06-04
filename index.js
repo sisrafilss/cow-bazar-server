@@ -45,7 +45,9 @@ async function run() {
     await client.connect();
 
     const usersDB = client.db("usersDB");
+    const cowsDB = client.db("cowsDB");
     const userCollection = usersDB.collection("userCollection");
+    const cowsCollection = usersDB.collection("cowsCollection");
 
     // user routes
     app.post("/user", async (req, res) => {
@@ -81,7 +83,7 @@ async function run() {
       const result = await userCollection.findOne({ email });
       res.send(result);
     });
-    app.patch("/user/:email", async (req, res) => {
+    app.patch("/user/:email", verifyToken, async (req, res) => {
       const email = req.params.email;
       const userData = req.body;
 
@@ -90,6 +92,13 @@ async function run() {
         { $set: userData },
         { upsert: true }
       );
+      res.send(result);
+    });
+
+    // cow's routes
+    app.post("/cows", verifyToken, async (req, res) => {
+      const cowsData = req.body;
+      const result = await cowsCollection.insertOne(cowsData);
       res.send(result);
     });
 
