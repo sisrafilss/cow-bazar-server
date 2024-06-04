@@ -101,6 +101,16 @@ async function run() {
       const result = await cowsCollection.insertOne(cowsData);
       res.send(result);
     });
+    app.get("/cows", async (req, res) => {
+      const cowsData = cowsCollection.find();
+      const result = await cowsData.toArray();
+      res.send(result);
+    });
+    app.delete("/cows/:id", verifyToken, async (req, res) => {
+      const id = req.params.id;
+      const result = await cowsCollection.deleteOne({ _id: new ObjectId(id) });
+      res.send(result);
+    });
 
     console.log("DB successfully connected!");
   } finally {
