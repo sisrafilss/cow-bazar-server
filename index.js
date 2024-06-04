@@ -9,6 +9,35 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
+
+
+
+
+function createToken(user) {
+  const token = jwt.sign(
+    {
+      email: user.email,
+    },
+    "secret",
+    { expiresIn: "1h" }
+  );
+
+  return token;
+}
+
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization.split(" ")[1];
+  const verify = jwt.verify(token, "secret");
+  if (!verify?.email) {
+    return res.send("You are not authorized!");
+  }
+  req.user = verify.email;
+  next();
+}
+
+
+
+
 const uri = process.env.DB_URL;
 const client = new MongoClient(uri, {
   serverApi: {
@@ -21,6 +50,28 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
+
+    const usersDB = client.db("usersDB");
+    const userCollection = usersDB.collection("userCollection");
+
+      // user routes
+      app.post("/user", async (req, res) => {
+        const userData = req.body;
+        const token = createToken(userData);
+        const isUserExists = await userCollection.findOne({
+          email: userData.email,
+        });
+  
+        if (isUserExists) {
+          return res.send({
+            status: "success",
+            message: "Login success",
+            token: token,
+          });
+        }
+        await userCollection.insertOne(userData);
+        res.send({ token });
+      });
 
     console.log("DB successfully connected!");
   } finally {
