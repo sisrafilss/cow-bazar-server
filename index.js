@@ -9,17 +9,13 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
-
-
-
-
 function createToken(user) {
   const token = jwt.sign(
     {
       email: user.email,
     },
     "secret",
-    { expiresIn: "1h" }
+    { expiresIn: "7d" }
   );
 
   return token;
@@ -34,9 +30,6 @@ function verifyToken(req, res, next) {
   req.user = verify.email;
   next();
 }
-
-
-
 
 const uri = process.env.DB_URL;
 const client = new MongoClient(uri, {
@@ -54,29 +47,40 @@ async function run() {
     const usersDB = client.db("usersDB");
     const userCollection = usersDB.collection("userCollection");
 
-      // user routes
-      app.post("/user", async (req, res) => {
-        const userData = req.body;
-        const token = createToken(userData);
-        const isUserExists = await userCollection.findOne({
-          email: userData.email,
+    // user routes
+    app.post("/user", async (req, res) => {
+      const userData = req.body;
+      if (!userData?.photoURL) {
+        userData.photoURL = "";
+      }
+      userData.contactNumber = "";
+      userData.address = "";
+      userData.age = "";
+      const token = createToken(userData);
+      const isUserExists = await userCollection.findOne({
+        email: userData.email,
+      });
+
+      if (isUserExists) {
+        return res.send({
+          status: "success",
+          message: "Login success",
+          token: token,
         });
-  
-        if (isUserExists) {
-          return res.send({
-            status: "success",
-            message: "Login success",
-            token: token,
-          });
-        }
-        await userCollection.insertOne(userData);
-        res.send({ token });
-      });
-      app.get("/user/:email", verifyToken, async (req, res) => {
-        const email = req.params.email;
-        const result = await userCollection.findOne({ email });
-        res.send(result);
-      });
+      }
+      await userCollection.insertOne(userData);
+      res.send({ token });
+    });
+    app.get("/user/get/:id", async (req, res) => {
+      const id = req.params.id;
+      const result = await userCollection.findOne({ _id: new ObjectId(id) });
+      res.send(result);
+    });
+    app.get("/user/:email", verifyToken, async (req, res) => {
+      const email = req.params.email;
+      const result = await userCollection.findOne({ email });
+      res.send(result);
+    });
 
     console.log("DB successfully connected!");
   } finally {
