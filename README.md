@@ -1,9 +1,9 @@
-# Cow Bazar 
+# Cow Bazar Server
 ## A reliable cow shop
 
 CowBazar is a cow website of a famous cow farm in Bangladesh. You can visit the CowBazar website from the following links:
 
-Hosted in Vercel: [https://cow-bazar-server-zeta.vercel.app//](https://cow-bazar-server-zeta.vercel.app//)
+Hosted in Vercel: [https://cow-bazar-client.vercel.app/](https://cow-bazar-client.vercel.app/)
 
 ## How to run the project in Local Machine
 * First of all clone this repository
