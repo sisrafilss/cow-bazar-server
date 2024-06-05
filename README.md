@@ -3,7 +3,7 @@
 
 CowBazar is a cow website of a famous cow farm in Bangladesh. You can visit the CowBazar website from the following links:
 
-Hosted in Vercel: [https://cow-bazar-client.vercel.app/](https://cow-bazar-client.vercel.app/)
+Hosted in Vercel: [https://cow-bazar-server-zeta.vercel.app//](https://cow-bazar-server-zeta.vercel.app//)
 
 ## How to run the project in Local Machine
 * First of all clone this repository
@@ -16,6 +16,6 @@ Hosted in Vercel: [https://cow-bazar-client.vercel.app/](https://cow-bazar-clien
 
 * Backend Repository: [https://github.com/sisrafilss/cow-bazar-server](https://github.com/sisrafilss/cow-bazar-server)
 
-* Live Website: [https://cow-bazar-client.vercel.app/](https://cow-bazar-client.vercel.app/)
+* Live Website: [https://cow-bazar-server-zeta.vercel.app//](https://cow-bazar-server-zeta.vercel.app//)
 
 * Server URL: [https://cow-bazar-server-psi.vercel.app/](https://cow-bazar-server-psi.vercel.app/)
