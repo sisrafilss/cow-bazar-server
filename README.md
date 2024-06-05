@@ -16,6 +16,6 @@ Hosted in Vercel: [https://cow-bazar-server-zeta.vercel.app//](https://cow-bazar
 
 * Backend Repository: [https://github.com/sisrafilss/cow-bazar-server](https://github.com/sisrafilss/cow-bazar-server)
 
-* Live Website: [https://cow-bazar-server-zeta.vercel.app//](https://cow-bazar-server-zeta.vercel.app//)
+* Live Website: [https://cow-bazar-client.vercel.app/](https://cow-bazar-client.vercel.app/)
 
-* Server URL: [https://cow-bazar-server-psi.vercel.app/](https://cow-bazar-server-psi.vercel.app/)
+* Server URL: [https://cow-bazar-server-zeta.vercel.app/](https://cow-bazar-server-zeta.vercel.app/)
