@@ -95,7 +95,7 @@ async function run() {
       res.send(result);
     });
 
-    // cow's routes
+    // cow's routes | get, post, patch, delete
     app.post("/cows", verifyToken, async (req, res) => {
       const cowsData = req.body;
       const result = await cowsCollection.insertOne(cowsData);
