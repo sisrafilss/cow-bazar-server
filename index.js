@@ -47,7 +47,7 @@ async function run() {
     const usersDB = client.db("usersDB");
     const cowsDB = client.db("cowsDB");
     const userCollection = usersDB.collection("userCollection");
-    const cowsCollection = usersDB.collection("cowsCollection");
+    const cowsCollection = cowsDB.collection("cowsCollection");
 
     // user routes
     app.post("/user", async (req, res) => {
@@ -73,17 +73,17 @@ async function run() {
       await userCollection.insertOne(userData);
       res.send({ token });
     });
-    app.get("/user/get/:id", verifyToken, async (req, res) => {
+    app.get("/user/get/:id", async (req, res) => {
       const id = req.params.id;
       const result = await userCollection.findOne({ _id: new ObjectId(id) });
       res.send(result);
     });
-    app.get("/user/:email", verifyToken, async (req, res) => {
+    app.get("/user/:email", async (req, res) => {
       const email = req.params.email;
       const result = await userCollection.findOne({ email });
       res.send(result);
     });
-    app.patch("/user/:email", verifyToken, async (req, res) => {
+    app.patch("/user/:email", async (req, res) => {
       const email = req.params.email;
       const userData = req.body;
 
@@ -96,8 +96,10 @@ async function run() {
     });
 
     // cow's routes | 
-    app.post("/cows", verifyToken, async (req, res) => {
+    app.post("/cows", async (req, res) => {
       const cowsData = req.body;
+
+      console.log(cowsData);
       const result = await cowsCollection.insertOne(cowsData);
       res.send(result);
     });
@@ -106,12 +108,12 @@ async function run() {
       const result = await cowsData.toArray();
       res.send(result);
     });
-    app.get("/cows/:id", verifyToken, async (req, res) => {
+    app.get("/cows/:id", async (req, res) => {
       const id = req.params.id;
       const result = await cowsCollection.findOne({ _id: new ObjectId(id) });
       res.send(result);
     });
-    app.patch("/cows/:id", verifyToken, async (req, res) => {
+    app.patch("/cows/:id", async (req, res) => {
       const id = req.params.id;
       const updatedData = req.body;
       const result = await cowsCollection.updateOne(
@@ -120,11 +122,22 @@ async function run() {
       );
       res.send(result);
     });
-    app.delete("/cows/:id", verifyToken, async (req, res) => {
+    app.delete("/cows/:id", async (req, res) => {
       const id = req.params.id;
       const result = await cowsCollection.deleteOne({ _id: new ObjectId(id) });
       res.send(result);
     });
+
+    // reviews
+     // cow's routes | 
+     app.post("/reviews", async (req, res) => {
+      const cowsData = req.body;
+
+      console.log(cowsData);
+      const result = await cowsCollection.insertOne(cowsData);
+      res.send(result);
+    });
+
 
     console.log("DB successfully connected!");
   } finally {
@@ -140,3 +153,5 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log("Server is running on port:", port);
 });
+
+// Testing
